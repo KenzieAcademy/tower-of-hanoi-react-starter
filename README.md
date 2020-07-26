@@ -1,1 +1,1 @@
-# tower-of-hanoi-react-starter
+Starter code for the react version of the tower of hanoi project. See my.kenzie for more details.
