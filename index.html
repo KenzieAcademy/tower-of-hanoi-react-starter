@@ -12,7 +12,7 @@
             display: flex;
         }
 
-        .tower {
+        .rod {
             display: flex;
             flex-direction: column-reverse;
             align-items: center;
@@ -25,7 +25,7 @@
             height: 400px;
         }
 
-        .block {
+        .disk {
             height: 50px;
             border: 1px solid black;
             background-color: red;
@@ -40,91 +40,81 @@
     <!-- include React and ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <!-- include Babel standalone so we can process JSX in React.createElement stuff -->
+    <!-- include Babel standalone so we can process JSX -->
     <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <!-- include our JS+JSX for the React Appliccation -->
     <script type="text/babel">
-        // An App component under which all other components will be added
-        function App(props) {
-            return (
-                <div>
-                    <Game />
-                </div>
-            )
-        }
-
         // Stateful component which will handle all game logic
         class Game extends React.Component {
             constructor(props) {
                 super(props)
 
-                let towersArray = this.createTowers()
-
                 this.state = {
                     selected: false,
-                    towers: towersArray
+                    rodsArray: this.createRods()
                 }
             }
 
-            // create an array containing our 5 starter block objects
-            createBlocks() {
-                let blockArray = []
-                for (let i = 5; i > 0; i--) {
-                    blockArray.push({ width: i * 45 })
+            // create an array containing our 5 starter disk objects
+            createDisks(n) {
+                let disksArray = []
+                for (let i = n; i > 0; i--) {
+                    disksArray.push({ width: i * 45 })
                 }
-                return blockArray
+                return disksArray
             }
 
-            // create an array of objects representing our towers and populate the first one with 5 block objects
-            createTowers() {
-                let towersArray = []
+            // create an array of objects representing our rods and populate the first one with 5 disk objects
+            createRods() {
+                let rodsArray = []
                 for (let i = 0; i < 3; i++) {
                     if (i === 0) {
-                        towersArray.push({ blocks: this.createBlocks() })
+                        rodsArray.push({ disksArray: this.createDisks(5) })
                     } else {
-                        towersArray.push({ blocks: [] })
+                        rodsArray.push({ disksArray: [] })
                     }
                 }
-                return towersArray
+                return rodsArray
             }
 
-            // handle when a player clicks on a tower
+            // handle when a player clicks on a rod
             handleClick = (event) => {
                 console.log("Current Game State:", this.state)
-                console.log(`Tower #${event.currentTarget.id} has been clicked, it contains these blocks:`, this.state.towers[event.currentTarget.id].blocks)
+                console.log(`Rod #${event.currentTarget.id} has been clicked, it contains these disks:`,
+                    this.state.rodsArray[event.currentTarget.id].disksArray)
             }
 
             render() {
                 return (
                     <div className="game-container">
-                        {/*render towers based on the current state of this.state.towers*/}
-                        {this.state.towers.map((tower, i) => {
-                            return <Tower handleClick={this.handleClick} key={i} id={i} blocks={tower.blocks} />
+                        {/*render rodsArray based on the current state of this.state.rodsArray*/}
+                        {this.state.rodsArray.map((rod, i) => {
+                            return <Rod handleClick={this.handleClick} key={i} id={i} disksArray={rod.disksArray} />
                         })}
                     </div>
                 )
             }
         }
 
-        // stateless component which takes in a blocks objects array as a prop and outputs a tower div containing block components
-        function Tower(props) {
+        // stateless component which takes in an array of disk-objects and outputs a rod div containing disk components
+        function Rod(props) {
             return (
-                <div className="tower" onClick={props.handleClick} id={props.id}>
-                    {props.blocks.map((block, i) => {
-                        return <Block width={block.width} key={i} />
+                <div className="rod" onClick={props.handleClick} id={props.id}>
+                    {props.disksArray.map((disk, i) => {
+                        return <Disk width={disk.width} key={i} />
                     })}
                 </div>
             )
         }
 
-        // stateless component which represents our block, simply takes in a width prop and creates a div with that width
-        function Block(props) {
-            return <div className="block" style={{ width: props.width }}></div>
+        // stateless component which represents our disk, takes in a width prop and creates a div with that width
+        function Disk(props) {
+            return <div className="disk" style={{ width: props.width }}></div>
         }
 
         // Render the App
         ReactDOM.render(
-            <App />,
+            <Game />,
             document.getElementById('root')
         )
     </script>
