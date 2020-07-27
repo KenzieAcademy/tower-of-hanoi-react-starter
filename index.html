@@ -30,7 +30,7 @@
                 }
             }
 
-            // create an array containing our 5 starter disk objects
+            // create an array which contains n starter disk objects
             createDisks(n) {
                 const disksArray = []
                 for (let i = n; i > 0; i--) {
@@ -39,7 +39,7 @@
                 return disksArray
             }
 
-            // create an array of objects representing our rods and populate the first one with 5 disk objects
+            // create an array of objects and populate the first object with an array of 5 disk objects
             createRods() {
                 const rodsArray = []
                 for (let i = 0; i < 3; i++) {
@@ -62,7 +62,7 @@
             render() {
                 return (
                     <div className="game-container">
-                        {/*render rodsArray based on the current state of this.state.rodsArray*/}
+                        {/*render the Rod components based on the current state of this.state.rodsArray*/}
                         {this.state.rodsArray.map((rod, i) => {
                             return <Rod handleClick={this.handleClick} key={i} id={i} disksArray={rod.disksArray} />
                         })}
