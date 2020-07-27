@@ -32,7 +32,7 @@
 
             // create an array containing our 5 starter disk objects
             createDisks(n) {
-                let disksArray = []
+                const disksArray = []
                 for (let i = n; i > 0; i--) {
                     disksArray.push({ width: i * 45 })
                 }
@@ -41,7 +41,7 @@
 
             // create an array of objects representing our rods and populate the first one with 5 disk objects
             createRods() {
-                let rodsArray = []
+                const rodsArray = []
                 for (let i = 0; i < 3; i++) {
                     if (i === 0) {
                         rodsArray.push({ disksArray: this.createDisks(5) })
